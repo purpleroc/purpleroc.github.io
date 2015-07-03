@@ -1,7 +1,7 @@
 <!-- sidebar.html -->
 <header class="sidebar-header" role="banner">
 	<a href="{{ site.BASE_PATH }}/">
-		<img src="http://purpleroc.github.io/assets/media/wolf.jpg" class="img-circle" />
+		<img src="/assets/media/wolf.jpg" class="img-circle" />
 	</a>
 	<h3 class="title">
         <a href="{{ site.BASE_PATH }}/">{{ site.title }}</a>
@@ -18,21 +18,28 @@
 	<ul class="list-unstyled list-inline">
 		{% if site.author.github %}
 		<li>
-			<a class="btn btn-default btn-sm" href="https://github.com/{{ site.author.github }}">
+			<a class="btn btn-default btn-sm" href="https://github.com/{{ site.author.github }}" title="Follow me github!">
 				<i class="fa fa-github-alt fa-lg"></i>
 			</a>
 		</li>
 		{% endif %}
 		{% if site.author.twitter %}
 		<li>
-			<a class="btn btn-default btn-sm" href="https://twitter.com/{{ site.author.twitter }}">
+			<a class="btn btn-default btn-sm" href="https://twitter.com/{{ site.author.twitter }}" title="Follow me twitter!">
 				<i class="fa fa-twitter fa-lg"></i>
 			</a>
 		</li>
-		{% endif %}
+    {% endif %}
+    {% if site.author.email %}
+    <li>
+    <a class="btn btn-default btn-sm" href="http://weibo.com/{{ site.author.github }}" title="Follow me Weibo!">
+        <i class="fa fa-weibo fa-lg"></i>
+      </a>
+    </li>
+    {% endif %}
 		{% if site.author.email %}
 		<li>
-			<a class="btn btn-default btn-sm" href="mailto:{{ site.author.email }}">
+			<a class="btn btn-default btn-sm" href="mailto:{{ site.author.email }}" title="Send me Emal!">
 				<i class="fa fa-envelope fa-lg"></i>
 			</a>
 		</li>
