@@ -9,8 +9,6 @@ description: To debug the file under mips device more convenience, tryed many wa
 
 #交叉编译各平台下GDB
 
-@(cross compile)[交叉编译] 
-
 　　所谓的交叉编译，就是：在一种平台上编译，编译出来的程序，是放到别的平台上运行即编译的环境，和运行的环境，不一样，属于交叉的，此所谓cross compile。交叉编译，这个概念，主要和嵌入式开发有关。
 　　之所以要有交叉编译，主要原因是：嵌入式系统中的资源太少。具体的解释就是：交叉编译出来的程序，所要运行的目标环境中，各种资源，都相对有限，所以很难进行直接的本地编译
 。最常见的情况是：在进行嵌入式开发时，目标平台，即嵌入式开发板，比如是最大主频200MHz的ARM的CPU，加上32M的RAM，加上1G的Nand Flash等等。
