@@ -1,3 +1,12 @@
+---
+layout: post
+title: Cross compile to get GDB under mips
+categories: [Cross compile, embedded tools, technic]
+tags: [IOT, Anlysis]
+description: To debug the file under mips device more convenience, tryed many ways, and finaly sucessed.
+---
+
+
 #交叉编译各平台下GDB
 
 @(cross compile)[交叉编译] 
