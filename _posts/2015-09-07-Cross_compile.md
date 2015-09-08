@@ -47,14 +47,14 @@ description: To debug the file under mips device more convenience, tryed many wa
     make menuconfig  
 
 　　得到如下界面：  
-![Alt text](./buildroot.png)  
+![Alt text](pic/buildroot.png)  
 　　这里主要设置两个地方。先进去第一个选项（以mips32小端模式为例进行演示）：   
-![Alt text](./mips.png)
+![Alt text](pic/mips.png)
 > Target Architecture: 目标平台，可选项很多，这里选MIPS(little endian)。（PS：一定注意不要错，我就在这里错了次，然后～～大小端问题折腾了好久。）  
 > 后面的可以不要动，有兴趣也可以看看每个选项是干嘛的。  
 
 　　再进去第三个选项如下，这里需要注意的就是Kernel Header这里（PS：踩过坑的）：  
-![Alt text](./toolchain.png)
+![Alt text](pic/toolchain.png)
 > Kernel Headers：这里，先进去找找，看看有没有对应你本机系统内核版本的。怎么看本机系统内核？翻到文章最前面去。我的版本是Linux version 3.13.0-63-generic，然而，选项里面并没有3.13之类，于是选择手动设置，然后在后面的linux version这一栏里手动填写3.13。
 > Custom kernel headers series：这里，大家就去找自己对应的版本就好了。再后面，我没改动过了。同上，有兴趣可以自行测试。
 
