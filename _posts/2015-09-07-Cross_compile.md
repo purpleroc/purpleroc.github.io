@@ -271,8 +271,10 @@ description: To debug the file under mips device more convenience, tryed many wa
      7103     ;;
      7104 esac
 
-　　再次编译：  
+　　而后将编译好的libtermcap.a放到gdb编译目录，并再次编译：  
 
+
+    tracy@Tracker:~/gdb-7.7.1$ cp ~/mips/termcap/lib/libtermcap.a
     tracy@Tracker:~/gdb-7.7.1$ make
     tracy@Tracker:~/gdb-7.7.1$ file gdb/gdb
     gdb/gdb: ELF 32-bit LSB  executable, MIPS, MIPS32 version 1 (SYSV), statically linked, not stripped
