@@ -217,6 +217,7 @@ description: To debug the file under mips device more convenience, tryed many wa
 
 
     #清理已编译内容
+
     tracy@Tracker:~/termcap-1.3.1$ make clean
     rm -f *.a *.o core
     #编译
@@ -236,7 +237,7 @@ description: To debug the file under mips device more convenience, tryed many wa
 ###再次编译GDB
 　　有了libtermcap.a，该放到哪里呢？本来想写折腾经过，后来想了想，不挖坑了，直接告诉大家我怎么改的吧，其实问题应该是处在gdb目录下的configure文件中。其中有段代码如下：  
 
-    7090 
+     7090 
      7091 case $host_os in
      7092   cygwin*)
      7093     if test -d $srcdir/libtermcap; then
@@ -253,7 +254,6 @@ description: To debug the file under mips device more convenience, tryed many wa
      7104 esac
 
 　　在这段的前面加上一行`ac_cv_search_tgetent="../libtermcap.a"`，改为：  
-
 
      7090 ac_cv_search_tgetent="../libtermcap.a"
      7091 case $host_os in
@@ -272,7 +272,6 @@ description: To debug the file under mips device more convenience, tryed many wa
      7104 esac
 
 　　而后将编译好的libtermcap.a放到gdb编译目录，并再次编译：  
-
 
     tracy@Tracker:~/gdb-7.7.1$ cp ~/mips/termcap/lib/libtermcap.a
     tracy@Tracker:~/gdb-7.7.1$ make
@@ -304,11 +303,11 @@ description: To debug the file under mips device more convenience, tryed many wa
 
 ###常见报错
  
-* 报错一：  
+**报错一：**
+
 缺少`sgidefs.h`   
 解决方法：  
 下载一个吧，或者把下面内容复制，保存为`sgidefs.h`。  
-
 
     /*
      *  * This file is subject to the terms and conditions of the GNU General Public
@@ -331,7 +330,6 @@ description: To debug the file under mips device more convenience, tryed many wa
     #if !defined(_MIPS_ISA) && !defined(__KERNEL__)
     #warning "Macro _MIPS_ISA has not been defined by specs file"
     #endif
-
     #if !defined(_MIPS_SIM) && !defined(__KERNEL__)
     #warning "Macro _MIPS_SIM has not been defined by specs file"
     #endif
@@ -424,10 +422,12 @@ description: To debug the file under mips device more convenience, tryed many wa
     #endif
     #define _MIPS_SIM_ABI64 _ABI64
 
-* 报错二：
+
+**报错二：**
   linux-mips-low.c中MMLO、FPC_CSR等未定义。
   解决办法：
   将下面代码加到linux-mips-low.c最前面。
+
 
     #define FPR_BASE	32
     #define PC		64
