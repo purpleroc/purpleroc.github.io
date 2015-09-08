@@ -265,7 +265,7 @@ tracy@Tracker:~/termcap-1.3.1$ make install
 　　之后，在设置的prefix目录下会有一个lib目录，其中便有我们编译好的所需要的libtermcap.a文件。  
 ###再次编译GDB
 　　有了libtermcap.a，该放到哪里呢？本来想写折腾经过，后来想了想，不挖坑了，直接告诉大家我怎么改的吧，其实问题应该是处在gdb目录下的configure文件中。其中有段代码如下：  
-{% highlight c %}
+{% highlight c++ %}
 case $host_os in
   cygwin*)
     if test -d $srcdir/libtermcap; then
@@ -282,7 +282,7 @@ case $host_os in
 esac
 {% endhighlight %}
 　　在这段的前面加上一行`ac_cv_search_tgetent="../libtermcap.a"`，改为：  
-{% highlight c %}
+{% highlight c+ %}
 ac_cv_search_tgetent="../libtermcap.a"
 case $host_os in
   cygwin*)
