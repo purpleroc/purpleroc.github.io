@@ -23,22 +23,24 @@ description: To debug the file under mips device more convenience, tryed many wa
 　　先说下我本机环境吧，系统是BackBox（基于ubuntu14.04）：  
 
 
-{% highlight bash %}
+{% highlight sh %}
+{% raw %}
 tracy@Tracker:~$ uname -a  
 Linux Tracker 3.13.0-63-generic #103-Ubuntu SMP Fri Aug 14 21:42:59 UTC 2015 x86_64 x86_64 x86_64 GNU/Linux  
 tracy@Tracker:~$ cat /proc/version  
 Linux version 3.13.0-63-generic (buildd@lgw01-18) (gcc version 4.8.2 (Ubuntu 4.8.2-19ubuntu1) ) #103-Ubuntu SMP Fri Aug 14 21:42:59 UTC 2015  
+{% endraw %}
 {% endhighlight %}
  
 　　1. 先安装需要安装的东西，包括： build-essential bison flex 之类，通过下面命令可以安装好：   
 
-{% highlight bash %}
-	sudo apt-get install build-essential bison flex  
+{% highlight sh %}
+sudo apt-get install build-essential bison flex  
 {% endhighlight %}
 
 　　2. 交叉编译环境搭建工具我用的是buildroot。   
 
-{% highlight bash %}
+{% highlight sh %}
 
 #下载  
 wget http://buildroot.uclibc.org/downloads/snapshots/buildroot-snapshot.tar.bz2  
@@ -51,10 +53,9 @@ tar -vxf buildroot-snapshot.tar
 　　3.接下来就是设置交叉编译的环境了。  
 
 
-{% highlight bash %}
-
-cd buildroot  
-make menuconfig  
+{% highlight sh %}
+tracy@Tracker:~$ cd buildroot  
+tracy@Tracker:~$ make menuconfig  
 {% endhighlight %}
 
 　　得到如下界面：  
@@ -74,8 +75,8 @@ make menuconfig
 　　结束后，你能看到下面文件夹及内容，就代表环境搭建成功了。  
 
 
-{% highlight bash %}
-tracy@Tracker:~$~/buildroot# ls output/host/usr/bin/ -l
+{% highlight sh %}
+~tracy@Tracker:~$/buildroot# ls output/host/usr/bin/ -l
 -rwxr-xr-x 1 root root   24763  9月  7 00:23 faked
 -rwxr-xr-x 1 root root    3955  9月  7 00:23 fakeroot
 -rwxr-xr-x 1 root root   24647  9月  7 00:23 ldconfig
@@ -139,13 +140,13 @@ lrwxrwxrwx 1 root root      35  9月  7 00:23 mipsel-linux-strip -> mipsel-build
 　　而后，问了方便下次再搭建其他环境，你可以把整个host目录copy到其他位置，再添加环境变量。如下：  
 　　
 
-{% highlight bash %}
+{% highlight sh %}
 #复制
 tracy@Tracker:~$ cp output/host /opt/embedded/mipsel/ -R
 #修改环境变量
-tracy@Tracker:~$ echo "export PATH=\$PATH:/opt/embedded/mipsel/usr/bin/" >> ~/.bashrc
+tracy@Tracker:~$ echo "export PATH=\$PATH:/opt/embedded/mipsel/usr/bin/" >> ~/.shrc
 #使修改生效
-tracy@Tracker:~$ source ~/.bashrc
+tracy@Tracker:~$ source ~/.shrc
 
 {% endhighlight %}
 
@@ -153,7 +154,7 @@ tracy@Tracker:~$ source ~/.bashrc
 　　之后，我们来测试一下编译出来的环境是否可用。  
 
 
-{% highlight bash %}
+{% highlight sh %}
 #生成hello.c
 tracy@Tracker:~$ echo "int main() {puts(\"Hello world\");}" > hello.c
 #编译成mips下的执行文件
@@ -161,17 +162,17 @@ tracy@Tracker:~$ mipsel-linux-gcc hello.c -o hello
 {% endhighlight %}
 
 　　没有报错，我们看下文件类型：  
-{% highlight bash %}
+{% highlight sh %}
 tracy@Tracker:~$ file hello
 hello: ELF 32-bit LSB  executable, MIPS, MIPS32 version 1 (SYSV), dynamically linked (uses shared libs), not stripped
 {% endhighlight %}
 　　Nice，这样子，我们就可以在自己电脑上编译出可在mipsel上运行的程序了。也就以为这，我们的mips交叉编译环境就搭建好了。  
 　　同理，如果想再搭建mips大端模式、mips64、arm的，记得先把output目录下的host文件夹复制到其他地方，便于下次使用。而后执行：  
-{% highlight bash %}
+{% highlight sh %}
 	make clean
 {% endhighlight%}
 　　并再次执行：  
-{% highlight bash %}
+{% highlight sh %}
 	make menuconfig  
 {% endhighlight %}
 　　更改Target Option后再make就行了。  
@@ -181,13 +182,13 @@ hello: ELF 32-bit LSB  executable, MIPS, MIPS32 version 1 (SYSV), dynamically li
 　　这是一个悲伤的话题，很多坑，多的来不及跳开，那就一步步来说说吧。可能，你会碰到的坑比我的还多，但无所谓了，总会解决的。  
 　　1. 下载gdb源码，我先前gnu官网下载的，后来，觉得麻烦，就直接：  
 
-{% highlight bash %}
+{% highlight sh %}
 tracy@Tracker:~$ sudo　apt-get source gdb
 {% endhighlight %}
 　　然后，自动解压出来了一个gdb-7.7.1的文件夹，下面就开始折腾吧。  
 
 
-{% highlight bash %}
+{% highlight sh %}
 #进入文件夹
 tracy@Tracker:~$ cd gdb-7.7.1/
 #配置编译选项 这编译选项是我摸索了好久的得到的可用的，顺便解释下：
@@ -203,7 +204,7 @@ tracy@Tracker:~/gdb-7.7.1$ make CC="mipsel-linux-gcc -static"
 {% endhighlight %}
 　　然后，对，报错了。报错如下：  
 
-{% highlight bash %}
+{% highlight sh %}
 checking for iconv... no, consider installing GNU libiconv
 checking for library containing waddstr... no
 configure: WARNING: no enhanced curses library found; disabling TUI
@@ -217,7 +218,7 @@ make: *** [all] 错误 2
 
 ###编译termcap
 
-{% highlight bash %}
+{% highlight sh %}
 #回到home目录下下载termcap-1.3.1.tar.gz
 tracy@Tracker:~$ wget http://ftp.gnu.org/gnu/termcap/termcap-1.3.1.tar.gz
 #解压
@@ -236,7 +237,7 @@ ranlib libtermcap.a
 
 　　看起来是对了，但是，我们file一下termcap.o。  
 
-{% highlight bash %}
+{% highlight sh %}
 tracy@Tracker:~/termcap-1.3.1$ file termcap.o 
 termcap.o: ELF 64-bit LSB  relocatable, x86-64, version 1 (SYSV), not stripped
 {% endhighlight %}
@@ -244,7 +245,7 @@ termcap.o: ELF 64-bit LSB  relocatable, x86-64, version 1 (SYSV), not stripped
 　　所以，这里还是在make的时候带上CC选项。  
 
 
-{% highlight bash %}
+{% highlight sh %}
 #清理已编译内容
 
 tracy@Tracker:~/termcap-1.3.1$ make clean
@@ -282,7 +283,7 @@ case $host_os in
 esac
 {% endhighlight %}
 　　在这段的前面加上一行`ac_cv_search_tgetent="../libtermcap.a"`，改为：  
-{% highlight c+ %}
+{% highlight c %}
 ac_cv_search_tgetent="../libtermcap.a"
 case $host_os in
   cygwin*)
@@ -301,7 +302,7 @@ esac
 {% endhighlight %}
 
 　　而后将编译好的libtermcap.a放到gdb编译目录，并再次编译：  
-{% highlight bash %}
+{% highlight sh %}
 tracy@Tracker:~/gdb-7.7.1$ cp ~/mips/termcap/lib/libtermcap.a
 tracy@Tracker:~/gdb-7.7.1$ make
 tracy@Tracker:~/gdb-7.7.1$ file gdb/gdb
