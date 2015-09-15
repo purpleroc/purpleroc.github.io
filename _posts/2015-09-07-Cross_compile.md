@@ -67,8 +67,9 @@ tracy@Tracker:~$ make menuconfig
 > 后面的可以不要动，有兴趣也可以看看每个选项是干嘛的。  
 
 　　再进去第三个选项如下，这里需要注意的就是Kernel Header这里（PS：踩过坑的）：  
-![Alt text](https://github.com/purpleroc/purpleroc.github.io/blob/master/pic/toolchain.png?raw=true)
-> Kernel Headers：这里，先进去找找，看看有没有对应你本机系统内核版本的。怎么看本机系统内核？翻到文章最前面去。我的版本是Linux version 3.13.0-63-generic，然而，选项里面并没有3.13之类，于是选择手动设置，然后在后面的linux version这一栏里手动填写3.13。
+![Alt text](https://github.com/purpleroc/purpleroc.github.io/blob/master/pic/toolchain.png?raw=true)  
+
+> Kernel Headers：这里，先进去找找，看看有没有对应你本机系统内核版本的。怎么看本机系统内核？翻到文章最前面去。我的版本是Linux version 3.13.0-63-generic，然而，选项里面并没有3.13之类，于是选择手动设置，然后在后面的linux version这一栏里手动填写3.13。  
 > Custom kernel headers series：这里，大家就去找自己对应的版本就好了。再后面，我没改动过了。同上，有兴趣可以自行测试。
 
 　　设置好这两个地方后，就保存，然后退出。之后，原地make一下。然后就是漫长的等待，因为buildroot会根据你设置的选项，去下载相应的文件进行编译。大概，一个小时的样子吧，就全部结束了。  
